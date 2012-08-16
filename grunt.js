@@ -29,10 +29,27 @@ module.exports = function(grunt) {
     lint: {
       files: ['grunt.js', 'src/**/*.js', 'test/**/*.js']
     },
+    jasmine: {
+      all:{
+        src:['spec/specrunner.html'],
+        errorReporting: true,
+        timeout: 15000 //in milliseconds
+      }
+	},
     watch: {
       files: '<config:lint.files>',
       tasks: 'lint qunit'
     },
+    reload: {
+        port: 8001,
+        proxy: {
+            host: 'localhost'
+        }
+    },
+//    watch:{
+//        files:['index.html'],
+//        tasks:'default reload'
+//    },
     jshint: {
       options: {
         curly: true,
@@ -55,6 +72,11 @@ module.exports = function(grunt) {
   });
 
   // Default task.
-  grunt.registerTask('default', 'lint qunit concat min');
+  grunt.registerTask('default', 'lint qunit jasmine concat min');
+  
+  // Loading tasks
+  grunt.loadNpmTasks('grunt-reload');
+  grunt.loadNpmTasks('grunt-jasmine-task');
+
 
 };
